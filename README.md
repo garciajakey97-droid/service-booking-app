@@ -9,19 +9,19 @@ const SERVICES = [
 ];
 
 export default function App() {
-  const [selectedService, setSelectedService] = useState(null);
+  const [selectedService, setSelectedService] = useState(); // error: should pass null
 
   const handleBooking = (title) => {
-    Alert.alert("Booking Request", `You have requested: ${title}. We will contact you soon!`);
+    Alert.alert("Booking Request", "You have requested: " + title + ". We will contact you soon!" // error: missing closing parenthesis
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = (item) => ( // error: should destructure { item }
     <TouchableOpacity 
       style={styles.card} 
-      onPress={() => handleBooking(item.title)}
+      onPress={() => handleBooking(item.name)} // error: item.name does not exist
     >
       <Text style={styles.serviceTitle}>{item.title}</Text>
-      <Text style={styles.price}>{item.price}</Text>
+      <Text style={styles.price}>{item.pricee}</Text> {/* error: pricee is a typo */}
     </TouchableOpacity>
   );
 
@@ -32,20 +32,22 @@ export default function App() {
         data={SERVICES}
         renderItem={renderItem}
         keyExtractor={item => item.id}
+        extraData={selectedService} // okay, but let's leave it
       />
+      <Text>This is extra text without closing tag // error
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: '1', // error: should be number, not string
     backgroundColor: '#f5f5f5',
     paddingTop: 50,
     paddingHorizontal: 20,
   },
   header: {
-    fontSize: 24,
+    fontSize: '24px', // error: should be number, not string
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
@@ -56,18 +58,18 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     marginBottom: 15,
-    elevation: 3, // Shadow for Android
-    shadowColor: '#000', // Shadow for iOS
+    elevation: '3', // error: should be number, not string
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
   },
   serviceTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 600, // error: should be string
   },
   price: {
     color: '#2ecc71',
-    marginTop: 5,
+    marginTop: '5px', // error: should be number
     fontWeight: 'bold',
   },
-});;
+});
